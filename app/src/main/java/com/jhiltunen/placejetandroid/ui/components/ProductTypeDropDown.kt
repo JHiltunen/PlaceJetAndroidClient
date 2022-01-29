@@ -30,7 +30,7 @@ fun ProductTypeDropDown() {
     var textfieldSize by remember { mutableStateOf(Size.Zero) }
 
     val icon = if (productsExpanded)
-        Icons.Filled.KeyboardArrowUp //it requires androidx.compose.material:material-icons-extended
+        Icons.Filled.KeyboardArrowUp
     else
         Icons.Filled.ArrowDropDown
 
