@@ -29,6 +29,7 @@ import androidx.navigation.compose.rememberNavController
 import com.jhiltunen.placejetandroid.entity.CableType
 import com.jhiltunen.placejetandroid.entity.Product
 import com.jhiltunen.placejetandroid.entity.ProductType
+import com.jhiltunen.placejetandroid.ui.components.ProductTypeDropDown
 import com.jhiltunen.placejetandroid.viewmodels.ProductViewModel
 
 class MainActivity : ComponentActivity() {
@@ -60,115 +61,12 @@ fun InsertProduct(productViewModel: ProductViewModel) {
     Column {
         TextField(value = productName, label = { Text(text = stringResource(id = R.string.productName))}, onValueChange = { productName = it })
         Row(horizontalArrangement = Arrangement.SpaceEvenly) {
-            drop()
+            ProductTypeDropDown()
         }
         Button(onClick = {
             productViewModel.insert(Product(productId = 0, name = productName, description = description, productType = ProductType.valueOf(productType), cableType = CableType.valueOf(cableType) , cableLength = cableLength, manufacturer = manufacturer, model = model, imageSrc = imageSrc))
         }) {
             Text(stringResource(R.string.insert))
-        }
-    }
-}
-
-@Composable
-fun drop() {
-    var productsExpanded by remember { mutableStateOf(false) }
-    var cablesExpanded by remember { mutableStateOf(false) }
-    var showAnother by remember { mutableStateOf(false) }
-    var productTypes = enumValues<ProductType>().map { it.displayName }
-    var cableTypes = enumValues<CableType>().map { it.displayName }
-    var selectedProductType by remember { mutableStateOf("") }
-    var selectedCableType by remember { mutableStateOf("") }
-
-    var textfieldSize by remember { mutableStateOf(Size.Zero)}
-
-    val icon = if (productsExpanded)
-        Icons.Filled.KeyboardArrowUp //it requires androidx.compose.material:material-icons-extended
-    else
-        Icons.Filled.ArrowDropDown
-
-
-    Column {
-        OutlinedTextField(
-            value = selectedProductType,
-            onValueChange = { selectedProductType = it },
-
-            modifier = Modifier
-                .fillMaxWidth()
-                .onGloballyPositioned { coordinates ->
-                    //This value is used to assign to the DropDown the same width
-                    textfieldSize = coordinates.size.toSize()
-                }
-                .clickable {
-                    productsExpanded = !productsExpanded
-                },
-            enabled = false,
-            label = {Text("Product type")},
-            trailingIcon = {
-                Icon(icon,"contentDescription",
-                    Modifier.clickable { productsExpanded = !productsExpanded })
-            }
-        )
-        DropdownMenu(
-            expanded = productsExpanded,
-            onDismissRequest = { productsExpanded = false },
-            modifier = Modifier
-                .width(with(LocalDensity.current){textfieldSize.width.toDp()})
-        ) {
-            productTypes.forEach { label ->
-                DropdownMenuItem(onClick = {
-                    selectedProductType = label
-                    productsExpanded = false
-
-                    if (selectedProductType == ProductType.AUDIOCABLE.displayName || selectedProductType == ProductType.DISPLAYCABLE.displayName || selectedProductType == ProductType.POWERCABLE.displayName) {
-                        showAnother = true
-                    } else {
-                        selectedCableType = ""
-                        showAnother = false
-                    }
-                }) {
-                    Text(text = label)
-                }
-            }
-        }
-
-        if (showAnother) {
-            OutlinedTextField(
-                value = selectedCableType,
-                onValueChange = { selectedCableType = it },
-
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .onGloballyPositioned { coordinates ->
-                        //This value is used to assign to the DropDown the same width
-                        textfieldSize = coordinates.size.toSize()
-                    }
-                    .clickable {
-                        cablesExpanded = !cablesExpanded
-                    },
-                enabled = false,
-                label = {Text("Cable type")},
-                trailingIcon = {
-                    Icon(icon,"contentDescription",
-                        Modifier.clickable { cablesExpanded = !cablesExpanded })
-                }
-            )
-            DropdownMenu(
-                expanded = cablesExpanded,
-                onDismissRequest = { cablesExpanded = false },
-                modifier = Modifier
-                    .width(with(LocalDensity.current){textfieldSize.width.toDp()})
-                    .clickable { cablesExpanded = !cablesExpanded }
-            ) {
-                cableTypes.forEach { label ->
-                    DropdownMenuItem(onClick = {
-                        selectedCableType = label
-                        cablesExpanded = false
-                    }) {
-                        Text(text = label)
-                    }
-                }
-            }
         }
     }
 }
