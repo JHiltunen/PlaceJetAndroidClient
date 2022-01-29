@@ -5,8 +5,9 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import com.jhiltunen.placejetandroid.dao.ProductDao
+import com.jhiltunen.placejetandroid.entity.Product
 
-@Database(entities = [], version = 1)
+@Database(entities = [(Product::class)], version = 1)
 abstract class ProductDB : RoomDatabase() {
     abstract fun productDao(): ProductDao
 
