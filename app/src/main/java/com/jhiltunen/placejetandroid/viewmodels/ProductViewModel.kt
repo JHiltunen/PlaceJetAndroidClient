@@ -14,6 +14,8 @@ class ProductViewModel(application: Application) :
     fun getAll(): LiveData<List<Products>> =
         productDB.productDao().getAll()
 
+    fun getDetails(productId: Long): LiveData<Products> = productDB.productDao().getProductDetails(productId = productId)
+
     fun insert(products: Products) {
         viewModelScope.launch {
             productDB.productDao().insert(products)

@@ -10,6 +10,9 @@ interface ProductDao {
     @Query("SELECT * FROM products")
     fun getAll(): LiveData<List<Products>>
 
+    @Query("SELECT * FROM products WHERE productId = :productId")
+    fun getProductDetails(productId: Long): LiveData<Products>
+
     @Query("SELECT * FROM products WHERE products.productId = :productId")
     // the @Relation do the INNER JOIN for you ;)
     fun getProductsWithLocations(productId: Long): LiveData<ProductLocations>

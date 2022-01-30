@@ -87,5 +87,16 @@ fun ListProducts(
 
 @Composable
 fun DetailView(productViewModel: ProductViewModel, id: Long, navController: NavController) {
-    Text(text = "$id")
+    var product = productViewModel.getDetails(id).observeAsState()
+    Column() {
+        Text(text = "${product.value?.productId}")
+        Text(text = "${product.value?.name}")
+        Text(text = "${product.value?.description}")
+        Text(text = "${product.value?.productType}")
+        Text(text = "${product.value?.cableType}")
+        Text(text = "${product.value?.cableLength}")
+        Text(text = "${product.value?.manufacturer}")
+        Text(text = "${product.value?.model}")
+        Text(text = "${product.value?.imageSrc}")
+    }
 }
