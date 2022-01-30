@@ -2,5 +2,10 @@
     <string name="app_name">PlaceJetAndroid</string>
     <string name="insert">Insert</string>
     <string name="header">List of products</string>
-    <string name="productName">Product name:</string>
+    <string name="product_name">Product name:</string>
+    <string name="cable_type">Cable type</string>
+    <string name="cable_length">Cable length</string>
+    <string name="product_description">Product description</string>
+    <string name="product_manufacturer">Manufacturer</string>
+    <string name="product_model">Model</string>
 </resources>

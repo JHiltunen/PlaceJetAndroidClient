@@ -9,7 +9,7 @@ data class Product(
     val productId: Long,
     val name: String,
     val description: String,
-    val productType: ProductType,
+    val productType: ProductType?,
     val cableType: CableType?,
     val cableLength: Double?,
     val manufacturer: String?,
@@ -45,3 +45,6 @@ inline fun <reified T: Enum<T>> printEnumValues() {
         println(value)
     }
 }
+
+fun getValueFromProductTypes(s: String): ProductType? = ProductType.values().find { it.displayName == s }
+fun getValueFromCableTypes(s: String): CableType? = CableType.values().find { it.displayName == s }
