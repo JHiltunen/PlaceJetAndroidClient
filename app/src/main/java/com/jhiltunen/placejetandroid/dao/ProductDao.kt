@@ -12,7 +12,7 @@ interface ProductDao {
 
     @Query("SELECT * FROM products WHERE products.productId = :productId")
     // the @Relation do the INNER JOIN for you ;)
-    fun getUserWithContacts(productId: Long): LiveData<ProductLocations>
+    fun getProductsWithLocations(productId: Long): LiveData<ProductLocations>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(products: Products): Long
