@@ -2,6 +2,7 @@ package com.jhiltunen.placejetandroid.dao
 
 import androidx.lifecycle.LiveData
 import androidx.room.*
+import com.jhiltunen.placejetandroid.entity.Location
 import com.jhiltunen.placejetandroid.entity.Locations
 import com.jhiltunen.placejetandroid.entity.ProductLocations
 

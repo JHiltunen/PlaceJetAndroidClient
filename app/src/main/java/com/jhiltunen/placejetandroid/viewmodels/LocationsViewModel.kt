@@ -5,6 +5,7 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.viewModelScope
 import com.jhiltunen.placejetandroid.database.ProductDB
+import com.jhiltunen.placejetandroid.entity.Location
 import com.jhiltunen.placejetandroid.entity.Locations
 import kotlinx.coroutines.launch
 

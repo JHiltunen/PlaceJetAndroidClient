@@ -6,9 +6,9 @@ import androidx.room.ForeignKey.CASCADE
 import androidx.room.PrimaryKey
 
 @Entity(foreignKeys = [ForeignKey(entity = Products::class, onDelete = CASCADE, parentColumns = ["productId"], childColumns = ["productId"])])
-data class Locations (
+data class Locations(
     @PrimaryKey
     val locationId: Long,
     val productId: Long,
-    val location: Location
+    val location: Location?
 )
