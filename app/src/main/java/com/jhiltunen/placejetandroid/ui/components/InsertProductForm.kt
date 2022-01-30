@@ -77,7 +77,7 @@ fun InsertProductForm(productViewModel: ProductViewModel) {
                             productsExpanded = !productsExpanded
                         },
                     enabled = false,
-                    label = { Text("Product type") },
+                    label = { Text("Products type") },
                     trailingIcon = {
                         Icon(icon, "contentDescription",
                             Modifier.clickable { productsExpanded = !productsExpanded })
@@ -155,7 +155,7 @@ fun InsertProductForm(productViewModel: ProductViewModel) {
 
         Button(onClick = {
             productViewModel.insert(
-                Product(
+                Products(
                     productId = 0,
                     name = productName,
                     description = description,

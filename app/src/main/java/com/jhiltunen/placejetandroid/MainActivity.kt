@@ -17,16 +17,19 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.jhiltunen.placejetandroid.ui.components.InsertProductForm
+import com.jhiltunen.placejetandroid.viewmodels.LocationsViewModel
 import com.jhiltunen.placejetandroid.viewmodels.ProductViewModel
 
 class MainActivity : ComponentActivity() {
     companion object {
         private lateinit var productViewModel: ProductViewModel
+        private lateinit var locationsViewModel: LocationsViewModel
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         productViewModel = ProductViewModel(application)
+        locationsViewModel = LocationsViewModel(application)
         setContent {
             MainAppNav(productViewModel)
         }
@@ -48,7 +51,7 @@ fun ListProducts(
 
         }
         items(productList.value) {
-            Text("Product: $it", Modifier.clickable {
+            Text("Products: $it", Modifier.clickable {
                 navController.navigate("details/${it.productId}")
 
             })

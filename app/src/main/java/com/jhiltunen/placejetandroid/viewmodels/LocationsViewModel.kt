@@ -5,18 +5,18 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.viewModelScope
 import com.jhiltunen.placejetandroid.database.ProductDB
-import com.jhiltunen.placejetandroid.entity.Products
+import com.jhiltunen.placejetandroid.entity.Locations
 import kotlinx.coroutines.launch
 
-class ProductViewModel(application: Application) :
+class LocationsViewModel(application: Application) :
     AndroidViewModel(application) {
     private val productDB = ProductDB.get(application)
-    fun getAll(): LiveData<List<Products>> =
-        productDB.productDao().getAll()
+    fun getAll(): LiveData<List<Locations>> =
+        productDB.locationsDao().getAll()
 
-    fun insert(products: Products) {
+    fun insert(location: Locations) {
         viewModelScope.launch {
-            productDB.productDao().insert(products)
+            productDB.locationsDao().insert(location)
         }
     }
 

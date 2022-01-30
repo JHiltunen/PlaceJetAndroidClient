@@ -2,19 +2,24 @@ package com.jhiltunen.placejetandroid.dao
 
 import androidx.lifecycle.LiveData
 import androidx.room.*
-import com.jhiltunen.placejetandroid.entity.Product
+import com.jhiltunen.placejetandroid.entity.ProductLocations
+import com.jhiltunen.placejetandroid.entity.Products
 
 @Dao
 interface ProductDao {
-    @Query("SELECT * FROM product")
-    fun getAll(): LiveData<List<Product>>
+    @Query("SELECT * FROM products")
+    fun getAll(): LiveData<List<Products>>
+
+    @Query("SELECT * FROM products WHERE products.productId = :productId")
+    // the @Relation do the INNER JOIN for you ;)
+    fun getUserWithContacts(productId: Long): LiveData<ProductLocations>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insert(product: Product): Long
+    suspend fun insert(products: Products): Long
 
     @Update
-    suspend fun update(product: Product)
+    suspend fun update(products: Products)
 
     @Delete
-    suspend fun delete(product: Product)
+    suspend fun delete(products: Products)
 }
