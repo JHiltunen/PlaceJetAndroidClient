@@ -8,4 +8,6 @@
     <string name="product_description">Product description</string>
     <string name="product_manufacturer">Manufacturer</string>
     <string name="product_model">Model</string>
+    <string name="select_product_location">Select product location:</string>
+    <string name="save_location">Save location</string>
 </resources>

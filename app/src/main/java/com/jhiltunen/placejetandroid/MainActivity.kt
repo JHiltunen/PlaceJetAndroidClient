@@ -74,7 +74,6 @@ fun ListProducts(
 
 @Composable
  fun MainAppNav(productViewModel: ProductViewModel, locationsViewModel: LocationsViewModel) {
-
     val navController = rememberNavController()
      NavHost (navController, startDestination = "main") {
          composable ("main") {
@@ -88,7 +87,7 @@ fun ListProducts(
          composable ("details/{productId}") {
 
             val id = it.arguments?.getString("productId")?.toLong() ?: 0
-             DetailView (productViewModel, locationsViewModel = locationsViewModel, id, navController)
+             DetailView (productViewModel, locationsViewModel = locationsViewModel, id)
 
         }
 
@@ -97,8 +96,9 @@ fun ListProducts(
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun DetailView(productViewModel: ProductViewModel, locationsViewModel: LocationsViewModel, id: Long, navController: NavController) {
+fun DetailView(productViewModel: ProductViewModel, locationsViewModel: LocationsViewModel, id: Long) {
     var product = productViewModel.getDetails(id).observeAsState()
+    var locations = productViewModel.getProductWithLocation(id).observeAsState()
     Column {
         Text(text = "${product.value?.productId}")
         Text(text = "${product.value?.name}")
@@ -109,6 +109,7 @@ fun DetailView(productViewModel: ProductViewModel, locationsViewModel: Locations
         Text(text = "${product.value?.manufacturer}")
         Text(text = "${product.value?.model}")
         Text(text = "${product.value?.imageSrc}")
+        Text(text = "${locations.value?.locations?.first()}")
         product.value?.productId?.let { CustomRadioGroup(locationsViewModel, it) }
     }
 }
@@ -123,7 +124,7 @@ fun CustomRadioGroup(locationsViewModel: LocationsViewModel, productId: Long) {
     val onSelectionChange = { text: String ->
         selectedOption = text
     }
-    Text(text = "Select product location:")
+    Text(text = stringResource(id = R.string.select_product_location))
     LazyVerticalGrid(
         cells = GridCells.Adaptive(150.dp),
 
@@ -180,46 +181,6 @@ fun CustomRadioGroup(locationsViewModel: LocationsViewModel, productId: Long) {
     Button(onClick = {
         locationsViewModel.insert(Locations(locationId = 0, productId = productId, location = getValueFromLocationTypes(selectedOption)))
     }) {
-        Text(text = "Save location")
+        Text(text = stringResource(id = R.string.save_location))
     }
-
-    /*Row(
-        horizontalArrangement = Arrangement.Center,
-        verticalAlignment = Alignment.CenterVertically,
-    ) {
-        options.forEach { text ->
-            Row(
-                modifier = Modifier
-                    .padding(
-                        all = 8.dp,
-                    ),
-            ) {
-                Text(
-                    text = text,
-                    style = typography.body1.merge(),
-                    color = Color.White,
-                    modifier = Modifier
-                        .clip(
-                            shape = RoundedCornerShape(
-                                size = 12.dp,
-                            ),
-                        )
-                        .clickable {
-                            onSelectionChange(text)
-                        }
-                        .background(
-                            if (text == selectedOption) {
-                                Color.Magenta
-                            } else {
-                                Color.LightGray
-                            }
-                        )
-                        .padding(
-                            vertical = 12.dp,
-                            horizontal = 16.dp,
-                        ),
-                )
-            }
-        }
-    }*/
 }
