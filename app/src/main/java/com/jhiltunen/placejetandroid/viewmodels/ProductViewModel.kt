@@ -33,5 +33,9 @@ class ProductViewModel(application: Application) :
         }
     }
 
-    /* fun update, delete, getDetails,... */
+    fun delete(product: Products) {
+        viewModelScope.launch {
+            productDB.productDao().delete(product = product)
+        }
+    }
 }
