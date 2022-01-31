@@ -98,7 +98,8 @@ fun ListProducts(
 @Composable
 fun DetailView(productViewModel: ProductViewModel, locationsViewModel: LocationsViewModel, id: Long) {
     var product = productViewModel.getDetails(id).observeAsState()
-    var locations = productViewModel.getProductWithLocation(id).observeAsState()
+    var productLocations = productViewModel.getProductWithLocation(id).observeAsState()
+    var locations = productLocations.value?.locations
     Column {
         Text(text = "${product.value?.productId}")
         Text(text = "${product.value?.name}")
@@ -109,17 +110,22 @@ fun DetailView(productViewModel: ProductViewModel, locationsViewModel: Locations
         Text(text = "${product.value?.manufacturer}")
         Text(text = "${product.value?.model}")
         Text(text = "${product.value?.imageSrc}")
-        Text(text = "${locations.value?.locations?.first()}")
-        product.value?.productId?.let { CustomRadioGroup(locationsViewModel, it) }
+        product.value?.productId?.let { CustomRadioGroup(locationsViewModel, it, locations) }
+        if (!locations.isNullOrEmpty()) {
+            Text(text = stringResource(id = R.string.location,
+                locations.first().location?.displayName ?: "No location selected"
+            ))
+        }
     }
 }
 
 @ExperimentalFoundationApi
 @Composable
-fun CustomRadioGroup(locationsViewModel: LocationsViewModel, productId: Long) {
+fun CustomRadioGroup(locationsViewModel: LocationsViewModel, productId: Long, locations: List<Locations>?) {
     val options = enumValues<Location>().map { it.displayName }
+
     var selectedOption by remember {
-        mutableStateOf(options.first())
+        mutableStateOf(if (!locations.isNullOrEmpty()) locations.last().location?.displayName else "")
     }
     val onSelectionChange = { text: String ->
         selectedOption = text
@@ -178,7 +184,7 @@ fun CustomRadioGroup(locationsViewModel: LocationsViewModel, productId: Long) {
         }
     )
 
-    Button(onClick = {
+    Button(enabled = selectedOption?.isNotEmpty() ?: false, onClick = {
         locationsViewModel.insert(Locations(locationId = 0, productId = productId, location = getValueFromLocationTypes(selectedOption)))
     }) {
         Text(text = stringResource(id = R.string.save_location))

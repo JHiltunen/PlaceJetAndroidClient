@@ -10,4 +10,4 @@ enum class Location(val displayName: String) {
     STOLEN("Stolen")
 }
 
-fun getValueFromLocationTypes(s: String): Location? = Location.values().find { it.displayName == s }
+fun getValueFromLocationTypes(s: String?): Location? = Location.values().find { it.displayName == s }

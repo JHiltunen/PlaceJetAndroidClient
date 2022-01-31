@@ -7,7 +7,7 @@ import androidx.room.PrimaryKey
 
 @Entity(foreignKeys = [ForeignKey(entity = Products::class, onDelete = CASCADE, parentColumns = ["productId"], childColumns = ["productId"])])
 data class Locations(
-    @PrimaryKey
+    @PrimaryKey(autoGenerate = true)
     val locationId: Long,
     val productId: Long,
     val location: Location?

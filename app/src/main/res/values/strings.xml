@@ -10,4 +10,6 @@
     <string name="product_model">Model</string>
     <string name="select_product_location">Select product location:</string>
     <string name="save_location">Save location</string>
+    <string name="locations_details">Locations details:</string>
+    <string name="location">Location: %s</string>
 </resources>
