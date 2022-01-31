@@ -20,7 +20,6 @@ import androidx.navigation.NavController
 import com.jhiltunen.placejetandroid.entity.Products
 import com.jhiltunen.placejetandroid.viewmodels.ProductViewModel
 import com.jhiltunen.placejetandroid.R
-import java.nio.file.Files.delete
 
 @ExperimentalFoundationApi
 @Composable
