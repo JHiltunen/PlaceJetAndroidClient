@@ -8,12 +8,14 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowDropDown
 import androidx.compose.material.icons.filled.KeyboardArrowUp
 import androidx.compose.runtime.*
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.toSize
 import com.jhiltunen.placejetandroid.R
 import com.jhiltunen.placejetandroid.entity.*
@@ -55,35 +57,39 @@ fun ProductForm(productViewModel: ProductViewModel, product: Products?) {
     else
         Icons.Filled.ArrowDropDown
 
-    Column {
+    Column(verticalArrangement = Arrangement.Center, horizontalAlignment = Alignment.CenterHorizontally, modifier = Modifier.fillMaxWidth().padding(20.dp)) {
         TextField(
             value = productName,
             label = { Text(text = stringResource(id = R.string.product_name)) },
             onValueChange = {
                 productName = it
                 product?.name = it
-            })
+            },
+            modifier = Modifier.fillMaxWidth())
         TextField(
             value = description,
             label = { Text(text = stringResource(id = R.string.product_description)) },
             onValueChange = {
                 description = it
                 product?.description = it
-            })
+            },
+            modifier = Modifier.fillMaxWidth())
         TextField(
             value = manufacturer,
             label = { Text(text = stringResource(id = R.string.product_manufacturer)) },
             onValueChange = {
                 manufacturer = it
                 product?.manufacturer = it
-            })
+            },
+            modifier = Modifier.fillMaxWidth())
         TextField(
             value = model,
             label = { Text(text = stringResource(id = R.string.product_model)) },
             onValueChange = {
                 model = it
                 product?.model = it
-            })
+            },
+            modifier = Modifier.fillMaxWidth())
 
         Row(horizontalArrangement = Arrangement.SpaceEvenly) {
             Column {
