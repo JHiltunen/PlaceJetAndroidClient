@@ -20,7 +20,7 @@ import com.jhiltunen.placejetandroid.entity.*
 import com.jhiltunen.placejetandroid.viewmodels.ProductViewModel
 
 @Composable
-fun InsertProductForm(productViewModel: ProductViewModel) {
+fun ProductForm(productViewModel: ProductViewModel, product: Products?) {
     // candiate for mutableStateListOf
     var productsExpanded by remember { mutableStateOf(false) }
     var cablesExpanded by remember { mutableStateOf(false) }
@@ -34,7 +34,19 @@ fun InsertProductForm(productViewModel: ProductViewModel) {
     var cableLength by remember { mutableStateOf("") }
     var manufacturer by remember { mutableStateOf("") }
     var model by remember { mutableStateOf("") }
-    var imageSrc by remember { mutableStateOf("") }
+    val imageSrc by remember { mutableStateOf("") }
+    if (product != null) {
+        productName = product.name
+        selectedProductType = product.productType?.displayName ?: ""
+        selectedCableType = product.cableType?.displayName ?: ""
+        if (selectedProductType == ProductType.AUDIOCABLE.displayName || selectedProductType == ProductType.DISPLAYCABLE.displayName || selectedProductType == ProductType.POWERCABLE.displayName) {
+            showAnother = true
+        }
+        description = product.description
+        cableLength = product.cableLength.toString()
+        manufacturer = product.manufacturer.toString()
+        model = product.model.toString()
+    }
 
     var textfieldSize by remember { mutableStateOf(Size.Zero) }
 
@@ -47,25 +59,40 @@ fun InsertProductForm(productViewModel: ProductViewModel) {
         TextField(
             value = productName,
             label = { Text(text = stringResource(id = R.string.product_name)) },
-            onValueChange = { productName = it })
+            onValueChange = {
+                productName = it
+                product?.name = it
+            })
         TextField(
             value = description,
             label = { Text(text = stringResource(id = R.string.product_description)) },
-            onValueChange = { description = it })
+            onValueChange = {
+                description = it
+                product?.description = it
+            })
         TextField(
             value = manufacturer,
             label = { Text(text = stringResource(id = R.string.product_manufacturer)) },
-            onValueChange = { manufacturer = it })
+            onValueChange = {
+                manufacturer = it
+                product?.manufacturer = it
+            })
         TextField(
             value = model,
             label = { Text(text = stringResource(id = R.string.product_model)) },
-            onValueChange = { model = it })
+            onValueChange = {
+                model = it
+                product?.model = it
+            })
 
         Row(horizontalArrangement = Arrangement.SpaceEvenly) {
             Column {
                 OutlinedTextField(
                     value = selectedProductType,
-                    onValueChange = { selectedProductType = it },
+                    onValueChange = {
+                        selectedProductType = it
+                        product?.productType = ProductType.valueOf(it)
+                    },
 
                     modifier = Modifier
                         .fillMaxWidth()
@@ -92,6 +119,7 @@ fun InsertProductForm(productViewModel: ProductViewModel) {
                     productTypes.forEach { label ->
                         DropdownMenuItem(onClick = {
                             selectedProductType = label
+                            product?.productType = getValueFromProductTypes(selectedProductType)
                             productsExpanded = false
 
                             if (selectedProductType == ProductType.AUDIOCABLE.displayName || selectedProductType == ProductType.DISPLAYCABLE.displayName || selectedProductType == ProductType.POWERCABLE.displayName) {
@@ -109,7 +137,11 @@ fun InsertProductForm(productViewModel: ProductViewModel) {
                 if (showAnother) {
                     OutlinedTextField(
                         value = selectedCableType,
-                        onValueChange = { selectedCableType = it },
+                        onValueChange = {
+                            selectedCableType = it
+                            selectedProductType = it
+                            product?.cableType = getValueFromCableTypes(it)
+                        },
 
                         modifier = Modifier
                             .fillMaxWidth()
@@ -147,30 +179,36 @@ fun InsertProductForm(productViewModel: ProductViewModel) {
                         value = cableLength,
                         label = { Text(text = stringResource(id = R.string.cable_length)) },
                         keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Number),
-                        onValueChange = { cableLength = it })
+                        onValueChange = {
+                            cableLength = it
+                            selectedProductType = it
+                            product?.cableLength
+                        })
 
                 }
             }
         }
 
-        Button(onClick = {
-            productViewModel.insert(
-                Products(
-                    productId = 0,
-                    name = productName,
-                    description = description,
-                    productType = getValueFromProductTypes(s = selectedProductType),
-                    cableType = getValueFromCableTypes(selectedCableType),
-                    cableLength = if (cableLength.isEmpty()) null else {
-                        cableLength.toDouble()
-                    },
-                    manufacturer = manufacturer,
-                    model = model,
-                    imageSrc = imageSrc
+        if (product == null) {
+            Button(onClick = {
+                productViewModel.insert(
+                    Products(
+                        productId = 0,
+                        name = productName,
+                        description = description,
+                        productType = getValueFromProductTypes(s = selectedProductType),
+                        cableType = getValueFromCableTypes(selectedCableType),
+                        cableLength = if (cableLength.isEmpty()) null else {
+                            cableLength.toDouble()
+                        },
+                        manufacturer = manufacturer,
+                        model = model,
+                        imageSrc = imageSrc
+                    )
                 )
-            )
-        }) {
-            Text(stringResource(R.string.insert))
+            }) {
+                Text(stringResource(R.string.insert))
+            }
         }
     }
 }

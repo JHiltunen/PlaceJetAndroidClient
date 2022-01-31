@@ -6,7 +6,7 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.jhiltunen.placejetandroid.ui.components.InsertProductForm
+import com.jhiltunen.placejetandroid.ui.components.ProductForm
 import com.jhiltunen.placejetandroid.ui.views.DetailView
 import com.jhiltunen.placejetandroid.ui.views.ProductListView
 import com.jhiltunen.placejetandroid.viewmodels.LocationsViewModel
@@ -19,7 +19,7 @@ fun MainAppNav(productViewModel: ProductViewModel, locationsViewModel: Locations
     NavHost(navController, startDestination = "main") {
         composable("main") {
             Column {
-                InsertProductForm(productViewModel)
+                ProductForm(productViewModel, null)
                 ProductListView(productViewModel, navController)
             }
 

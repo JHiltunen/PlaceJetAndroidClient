@@ -7,17 +7,19 @@ import androidx.room.PrimaryKey
 data class Products(
     @PrimaryKey(autoGenerate = true)
     val productId: Long,
-    val name: String,
-    val description: String,
-    val productType: ProductType?,
-    val cableType: CableType?,
-    val cableLength: Double?,
-    val manufacturer: String?,
-    val model: String?,
+    var name: String,
+    var description: String,
+    var productType: ProductType?,
+    var cableType: CableType?,
+    var cableLength: Double?,
+    var manufacturer: String?,
+    var model: String?,
     val imageSrc: String?
 ) {
     //constructor, getter and setter are implicit :)
     override fun toString() = "$productId: $name - $description - $productType"
+
+    constructor() : this(-1, "", "", null, null, 0.0, "", "", "")
 }
 
 enum class ProductType(val displayName: String) {

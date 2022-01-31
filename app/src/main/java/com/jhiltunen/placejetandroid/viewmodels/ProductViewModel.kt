@@ -27,5 +27,11 @@ class ProductViewModel(application: Application) :
         }
     }
 
+    fun update(products: Products) {
+        viewModelScope.launch {
+            productDB.productDao().update(products)
+        }
+    }
+
     /* fun update, delete, getDetails,... */
 }
