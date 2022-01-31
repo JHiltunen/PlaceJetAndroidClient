@@ -24,6 +24,7 @@ import com.jhiltunen.placejetandroid.viewmodels.ProductViewModel
 @Composable
 fun ProductForm(productViewModel: ProductViewModel, product: Products?) {
     // candiate for mutableStateListOf
+
     var productsExpanded by remember { mutableStateOf(false) }
     var cablesExpanded by remember { mutableStateOf(false) }
     var showAnother by remember { mutableStateOf(false) }
@@ -196,7 +197,7 @@ fun ProductForm(productViewModel: ProductViewModel, product: Products?) {
         }
 
         if (product == null) {
-            Button(onClick = {
+            Button(enabled = (productName.isNotEmpty() && description.isNotEmpty() && manufacturer.isNotEmpty() && model.isNotEmpty() && selectedProductType.isNotEmpty()), onClick = {
                 productViewModel.insert(
                     Products(
                         productId = 0,
@@ -212,6 +213,13 @@ fun ProductForm(productViewModel: ProductViewModel, product: Products?) {
                         imageSrc = imageSrc
                     )
                 )
+                productName = ""
+                description = ""
+                manufacturer = ""
+                model = ""
+                selectedProductType = ""
+                selectedCableType = ""
+                showAnother = false
             }) {
                 Text(stringResource(R.string.insert))
             }
