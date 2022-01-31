@@ -19,6 +19,4 @@ class LocationsViewModel(application: Application) :
             productDB.locationsDao().insert(location)
         }
     }
-
-    /* fun update, delete, getDetails,... */
 }
